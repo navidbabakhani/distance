@@ -1,0 +1,14 @@
+{
+  "firstLocation": {
+    "postalCode": "YO42 4NG",
+    "latitude": 53.873455,
+    "longitude": -0.813476
+  },
+  "secondLocation": {
+    "postalCode": "YO8 9UA",
+    "latitude": 53.774,
+    "longitude": -1.119
+  },
+  "distance": 22.90034134175489,
+  "unit": "km"
+}

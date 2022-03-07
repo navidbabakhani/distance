@@ -1,0 +1,5 @@
+{
+  "service": "distance",
+  "errorCode": 400,
+  "errorMessage": "400 BAD_REQUEST \"Required String parameter 'secondPostalCode' is not present\""
+}

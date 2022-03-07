@@ -1,0 +1,157 @@
+openapi: 3.0.0
+info:
+  description: Distance API
+  title: Distance API
+  contact:
+    name: Navid Babakhani
+    email: navid.babakhani@gmail.com
+    url: https://github.com/navidbabakhani/
+  version: 1.0.0
+paths:
+  /distance:
+    get:
+      description: Get distance between two postal codes in the UK.
+      parameters:
+        - name: firstPostalCode
+          in: query
+          description: First Postal Code
+          required: true
+          schema:
+            type: string
+            example: 'AB10 7JB'
+        - name: secondPostalCode
+          in: query
+          description: Second Postal Code
+          required: true
+          schema:
+            type: string
+            example: 'ZE1 9SQ'
+      responses:
+        '200':
+          description: "Returns the geographic distance"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DistanceResponseBody'
+        '400':
+          $ref: '#/components/responses/client-error'
+        '404':
+          $ref: '#/components/responses/client-error2'
+        '500':
+          $ref: '#/components/responses/server-error'
+  /update:
+    post:
+      description: Updates coordinates for postal code
+      parameters:
+        - name: postalCode
+          in: query
+          description: Postal code to be updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                latitude:
+                  type: number
+                  nullable: false
+                  example: 60.154437
+                longitude:
+                  type: number
+                  nullable: false
+                  example: -1.154437
+      responses:
+        '200':
+          description: Updated Coordinates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationItem'
+        '400':
+          $ref: '#/components/responses/client-error'
+        '404':
+          $ref: '#/components/responses/client-error2'
+        '500':
+          $ref: '#/components/responses/server-error'
+
+components:
+  schemas:
+    DistanceResponseBody:
+      type: object
+      properties:
+        firstLocation:
+          $ref: '#/components/schemas/LocationItem'
+        secondLocation:
+          $ref: '#/components/schemas/LocationItem'
+        distance:
+          type: number
+          nullable: false
+          example: 22.76574
+        unit:
+          type: string
+          nullable: false
+          example: 'km'
+    LocationItem:
+      type: object
+      properties:
+        postalCode:
+          type: string
+          nullable: false
+          example: 'ZE1 9SQ'
+        latitude:
+          type: number
+          nullable: false
+          example: 60.154437
+        longitude:
+          type: number
+          nullable: false
+          example: -1.154437
+  responses:
+    client-error:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            properties:
+              service:
+                type: string
+                example: distance
+              errorCode:
+                type: integer
+                example: 400
+              errorMessage:
+                type: string
+                example: "Required request parameter 'secondPostalCode' for method parameter type String is not present"
+    client-error2:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            properties:
+              service:
+                type: string
+                example: distance
+              errorCode:
+                type: integer
+                example: 404
+              errorMessage:
+                type: string
+                example: 'Post Code is not found: ZE1 9SQ'
+    server-error:
+      description: Server error
+      content:
+        application/json:
+          schema:
+            properties:
+              service:
+                type: string
+                example: distance
+              errorCode:
+                type: integer
+                example: 500
+              errorMessage:
+                type: string
+                example: 'IOException'

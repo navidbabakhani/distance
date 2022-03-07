@@ -1,0 +1,5 @@
+{
+  "service": "distance",
+  "errorCode": 404,
+  "errorMessage": "Post Code is not found: YO42 4NG"
+}
